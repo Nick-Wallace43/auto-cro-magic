@@ -9,16 +9,22 @@ const api = axios.create({
   },
 });
 
-// Add request interceptor for authentication
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+// Request interceptor
+api.interceptors.request.use(
+  (config) => {
+    // Add auth token if exists
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-  return config;
-});
+);
 
-// Add response interceptor for error handling
+// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -31,10 +37,27 @@ api.interceptors.response.use(
   }
 );
 
-export const analyzePage = async (url: string) => {
-  const response = await api.post('/pagespeed/analyze', { url });
+export interface PageAnalysisResult {
+  performanceScore: number;
+  coreWebVitals: {
+    fcp: number;
+    fcpScore: number;
+    lcp: number;
+    lcpScore: number;
+    tti: number;
+    ttiScore: number;
+  };
+  recommendations: Array<{
+    title: string;
+    description: string;
+    priority: string;
+  }>;
+}
+
+export async function analyzePage(url: string): Promise<PageAnalysisResult> {
+  const response = await api.post<PageAnalysisResult>('/pagespeed/analyze', { url });
   return response.data;
-};
+}
 
 export const getRecommendations = async (pageSpeedData: any, url: string) => {
   const response = await api.post('/chat/recommendations', { pageSpeedData, url });

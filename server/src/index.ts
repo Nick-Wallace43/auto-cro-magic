@@ -6,9 +6,9 @@ import { rateLimit } from 'express-rate-limit';
 import { config } from 'dotenv';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
-import { pagespeedRouter } from './routes/pagespeed';
-import { chatRouter } from './routes/chat';
-import { authRouter } from './routes/auth';
+import pagespeedRoutes from './routes/pagespeed';
+import chatRoutes from './routes/chat';
+import authRoutes from './routes/auth';
 
 // Load environment variables
 config();
@@ -30,9 +30,9 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Routes
-app.use('/api/pagespeed', pagespeedRouter);
-app.use('/api/chat', chatRouter);
-app.use('/api/auth', authRouter);
+app.use('/api/pagespeed', pagespeedRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error handling
 app.use(errorHandler);

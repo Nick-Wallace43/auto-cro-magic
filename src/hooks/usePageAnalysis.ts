@@ -1,48 +1,41 @@
-import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { analyzePage, getRecommendations } from '@/lib/api';
-import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { analyzePage as analyzePageAPI } from '../lib/api'
 
 interface PageAnalysisResult {
-  pageSpeedData: any;
-  recommendations: any[];
-  isLoading: boolean;
-  error: Error | null;
-  analyze: (url: string) => Promise<void>;
+  performanceScore: number
+  coreWebVitals: {
+    fcp: number
+    fcpScore: number
+    lcp: number
+    lcpScore: number
+    tti: number
+    ttiScore: number
+  }
+  recommendations: Array<{
+    title: string
+    description: string
+    priority: string
+  }>
 }
 
-export const usePageAnalysis = (): PageAnalysisResult => {
-  const [pageSpeedData, setPageSpeedData] = useState<any>(null);
-  const [recommendations, setRecommendations] = useState<any[]>([]);
-  const [error, setError] = useState<Error | null>(null);
-
-  const analyzeMutation = useMutation({
-    mutationFn: analyzePage,
-    onSuccess: (data) => {
-      setPageSpeedData(data.data.pageSpeedData);
-      setRecommendations(data.data.recommendations);
-      setError(null);
-      toast.success('Page analysis completed successfully');
+export function usePageAnalysis() {
+  const { mutateAsync: analyzePage, isPending, error, data } = useMutation<PageAnalysisResult, Error, string>({
+    mutationFn: async (url: string) => {
+      try {
+        const result = await analyzePageAPI(url)
+        return result
+      } catch (err) {
+        toast.error('Failed to analyze page')
+        throw err
+      }
     },
-    onError: (error: Error) => {
-      setError(error);
-      toast.error('Failed to analyze page');
-    }
-  });
-
-  const analyze = async (url: string) => {
-    try {
-      await analyzeMutation.mutateAsync(url);
-    } catch (error) {
-      console.error('Page analysis failed:', error);
-    }
-  };
+  })
 
   return {
-    pageSpeedData,
-    recommendations,
-    isLoading: analyzeMutation.isPending,
+    analyzePage,
+    isLoading: isPending,
     error,
-    analyze
-  };
-}; 
+    data,
+  }
+} 
