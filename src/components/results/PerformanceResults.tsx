@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, BadgeAlert, CircleCheck, BarChart, Smartphone, Monitor, AlertCircle, Cog } from 'lucide-react';
+import { AlertTriangle, BadgeAlert, BarChart, Smartphone, Monitor, AlertCircle, Cog, CheckCircle2 } from 'lucide-react';
 import { Progress } from "@/components/ui/progress";
 
 interface PerformanceResultsProps {
@@ -148,7 +147,7 @@ const PerformanceResults: React.FC<PerformanceResultsProps> = ({ analysisType })
             </div>
             
             <div className="flex items-start gap-3">
-              <CircleCheck className="h-6 w-6 text-green-500 mt-1" />
+              <CheckCircle2 className="h-6 w-6 text-green-500 mt-1" />
               <div>
                 <h4 className="text-xl font-medium text-[#E2E8F0] mb-1">Proper Caching Headers</h4>
                 <p className="text-lg text-[#E2E8F0]">

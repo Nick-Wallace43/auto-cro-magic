@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CircleCheck, AlertTriangle, Info } from 'lucide-react';
+import { AlertTriangle, Info, CheckCircle2 } from 'lucide-react';
 
 interface CROResultsProps {
   analysisType: string;
@@ -17,7 +16,7 @@ const CROResults: React.FC<CROResultsProps> = ({ analysisType }) => {
         <CardContent className="p-6">
           <div className="space-y-6">
             <div className="flex items-start gap-3">
-              <CircleCheck className="h-6 w-6 text-green-500 mt-1" />
+              <CheckCircle2 className="h-6 w-6 text-green-500 mt-1" />
               <div>
                 <h4 className="text-xl font-medium text-[#E2E8F0] mb-1">Strong hero image</h4>
                 <p className="text-lg text-[#E2E8F0]">
@@ -66,7 +65,7 @@ const CROResults: React.FC<CROResultsProps> = ({ analysisType }) => {
             </div>
             
             <div className="flex items-start gap-3">
-              <CircleCheck className="h-6 w-6 text-green-500 mt-1" />
+              <CheckCircle2 className="h-6 w-6 text-green-500 mt-1" />
               <div>
                 <h4 className="text-xl font-medium text-[#E2E8F0] mb-1">Good button sizing</h4>
                 <p className="text-lg text-[#E2E8F0]">
@@ -105,7 +104,7 @@ const CROResults: React.FC<CROResultsProps> = ({ analysisType }) => {
             </div>
             
             <div className="flex items-start gap-3">
-              <CircleCheck className="h-6 w-6 text-green-500 mt-1" />
+              <CheckCircle2 className="h-6 w-6 text-green-500 mt-1" />
               <div>
                 <h4 className="text-xl font-medium text-[#E2E8F0] mb-1">Good shipping information</h4>
                 <p className="text-lg text-[#E2E8F0]">
@@ -134,7 +133,7 @@ const CROResults: React.FC<CROResultsProps> = ({ analysisType }) => {
         <CardContent className="p-6">
           <div className="space-y-6">
             <div className="flex items-start gap-3">
-              <CircleCheck className="h-6 w-6 text-green-500 mt-1" />
+              <CheckCircle2 className="h-6 w-6 text-green-500 mt-1" />
               <div>
                 <h4 className="text-xl font-medium text-[#E2E8F0] mb-1">Responsive layout</h4>
                 <p className="text-lg text-[#E2E8F0]">
@@ -183,7 +182,7 @@ const CROResults: React.FC<CROResultsProps> = ({ analysisType }) => {
             </div>
             
             <div className="flex items-start gap-3">
-              <CircleCheck className="h-6 w-6 text-green-500 mt-1" />
+              <CheckCircle2 className="h-6 w-6 text-green-500 mt-1" />
               <div>
                 <h4 className="text-xl font-medium text-[#E2E8F0] mb-1">High-quality images</h4>
                 <p className="text-lg text-[#E2E8F0]">

@@ -1,14 +1,23 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, BadgeAlert, CircleCheck, Wand2 } from 'lucide-react';
+import { AlertTriangle, BadgeAlert, CheckCircle, Wand2, CheckCircle2 } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 
 interface CopywritingResultsProps {
-  analysisType: string;
+  data: {
+    readabilityScore: number;
+    recommendations: Array<{
+      title: string;
+      description: string;
+      priority: 'high' | 'medium' | 'low';
+      implementation: string[];
+      impact: string;
+    }>;
+  };
 }
 
-const CopywritingResults: React.FC<CopywritingResultsProps> = ({ analysisType }) => {
+const CopywritingResults: React.FC<CopywritingResultsProps> = ({ data }) => {
   return (
     <div className="space-y-8">
       <Card className="bg-[#1E293B] border-0 shadow-md">
@@ -166,6 +175,65 @@ const CopywritingResults: React.FC<CopywritingResultsProps> = ({ analysisType })
                   <Wand2 className="mr-2 h-5 w-5" />
                   Update CTA Copy
                 </Button>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-[#1E293B] border-0 shadow-md">
+        <CardHeader className="bg-[#2D3748] pb-4">
+          <CardTitle className="text-2xl text-[#E2E8F0]">Readability Analysis</CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium">Readability Score</h3>
+              <Progress value={data.readabilityScore} className="mt-2" />
+              <p className="text-sm text-muted-foreground mt-1">
+                Current readability score: {data.readabilityScore}%
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-medium mb-4">Content Recommendations</h3>
+              <div className="space-y-4">
+                {data.recommendations.map((rec, index) => (
+                  <div key={index} className="border rounded-lg p-4">
+                    <div className="flex items-start gap-2">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5" />
+                      <div>
+                        <h4 className="font-medium">{rec.title}</h4>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {rec.description}
+                        </p>
+                        <div className="mt-2">
+                          <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                            rec.priority === 'high' ? 'bg-red-100 text-red-800' :
+                            rec.priority === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-green-100 text-green-800'
+                          }`}>
+                            {rec.priority} priority
+                          </span>
+                        </div>
+                        <div className="mt-2">
+                          <h5 className="text-sm font-medium">Implementation Steps:</h5>
+                          <ul className="list-disc list-inside text-sm text-muted-foreground mt-1">
+                            {rec.implementation.map((step, i) => (
+                              <li key={i}>{step}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div className="mt-2">
+                          <h5 className="text-sm font-medium">Expected Impact:</h5>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {rec.impact}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

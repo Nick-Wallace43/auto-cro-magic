@@ -1,14 +1,14 @@
 import express from 'express';
 import { analyzePage } from '../services/pagespeed';
 import { generateRecommendations } from '../services/chatgpt';
-import { AppError } from '../utils/error';
+import { AppError } from '../middleware/errorHandler';
 
 const router = express.Router();
 
-router.post('/analyze', async (req, res) => {
+router.post('/analyze', async (req, res, next) => {
   try {
     const { url } = req.body;
-
+    
     if (!url) {
       throw new AppError('URL is required', 400);
     }
@@ -20,22 +20,15 @@ router.post('/analyze', async (req, res) => {
       throw new AppError('Invalid URL format', 400);
     }
 
-    const pageSpeedData = await analyzePage(url);
-    const recommendations = await generateRecommendations(pageSpeedData, url);
+    const analysis = await analyzePage(url);
+    const recommendations = await generateRecommendations(analysis, url);
 
-    res.json({
-      status: 'success',
-      data: {
-        pageSpeedData,
-        recommendations
-      }
+    res.status(200).json({
+      analysis,
+      recommendations
     });
   } catch (error) {
-    if (error instanceof AppError) {
-      res.status(error.statusCode).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: 'Internal server error' });
-    }
+    next(error);
   }
 });
 
