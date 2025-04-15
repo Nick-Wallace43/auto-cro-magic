@@ -69,8 +69,8 @@ export const analyzePage = async (url: string): Promise<PageSpeedResult> => {
   } catch (error) {
     logger.error('PageSpeed analysis failed:', error);
     throw new AppError(
-      500,
-      'Failed to analyze page with PageSpeed Insights'
+      'Failed to analyze page with PageSpeed Insights',
+      500
     );
   }
 }; 

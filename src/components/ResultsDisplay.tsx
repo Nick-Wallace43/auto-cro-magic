@@ -6,7 +6,7 @@ import { ArrowLeft, ExternalLink, Download, Mail, PlusCircle, Sparkles } from 'l
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { analysisTypes } from '@/lib/analysis-types';
 import { Skeleton } from '@/components/ui/skeleton';
-import SEOResults from './results/SEOResults';
+import { SEOResults } from './results/SEOResults';
 import CROResults from './results/CROResults';
 import PerformanceResults from './results/PerformanceResults';
 import CopywritingResults from './results/CopywritingResults';
@@ -109,7 +109,18 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         </TabsContent>
         
         <TabsContent value="seo">
-          <SEOResults analysisType={analysisType} />
+          <SEOResults data={{
+            seoScore: 75,
+            recommendations: [
+              {
+                title: "Optimize meta tags",
+                description: "Add missing meta descriptions",
+                priority: "high",
+                implementation: ["Add meta description", "Optimize title tags"],
+                impact: "High impact on search visibility"
+              }
+            ]
+          }} />
         </TabsContent>
         
         <TabsContent value="performance">
@@ -117,7 +128,18 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({
         </TabsContent>
         
         <TabsContent value="copywriting">
-          <CopywritingResults />
+          <CopywritingResults data={{
+            readabilityScore: 85,
+            recommendations: [
+              {
+                title: "Improve readability",
+                description: "Content is well-structured",
+                priority: "medium",
+                implementation: ["Break up long paragraphs", "Use shorter sentences"],
+                impact: "Medium impact on user engagement"
+              }
+            ]
+          }} />
         </TabsContent>
         
         <TabsContent value="competitive">
