@@ -6,10 +6,10 @@ import { ArrowLeft, ExternalLink, Download, Mail, PlusCircle, Sparkles } from 'l
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { analysisTypes } from '@/lib/analysis-types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { SEOResults } from './results/SEOResults';
-import { CopywritingResults } from './results/CopywritingResults';
-import { PerformanceResults } from './results/PerformanceResults';
-import { CROResults } from './results/CROResults';
+import SEOResults from './results/SEOResults';
+import CROResults from './results/CROResults';
+import PerformanceResults from './results/PerformanceResults';
+import CopywritingResults from './results/CopywritingResults';
 import CompetitiveResults from './results/CompetitiveResults';
 import QuickWinsResults from './results/QuickWinsResults';
 import DeeperImprovementsResults from './results/DeeperImprovementsResults';
