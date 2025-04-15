@@ -1,5 +1,5 @@
 import React from 'react';
-import PageAnalysis from '@/components/PageAnalysis';
+import { PageAnalysis } from '@/components/PageAnalysis';
 
 export default function AnalyzePage() {
   return (
