@@ -60,11 +60,9 @@ export default function PricingPage() {
           {plans.map((plan, index) => (
             <Card 
               key={index} 
-              className={\`\${
-                plan.highlighted 
-                  ? 'bg-primary border-primary shadow-lg shadow-primary/20' 
-                  : 'bg-[#1E293B] border-[#4A5568]'
-              }\`}
+              className={plan.highlighted 
+                ? 'bg-primary border-primary shadow-lg shadow-primary/20' 
+                : 'bg-[#1E293B] border-[#4A5568]'}
             >
               <CardHeader>
                 <CardTitle className="text-2xl">{plan.name}</CardTitle>
@@ -84,9 +82,7 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 <Button 
-                  className={\`w-full mt-6 \${
-                    plan.highlighted ? 'bg-white text-primary hover:bg-white/90' : ''
-                  }\`}
+                  className={'w-full mt-6 ' + (plan.highlighted ? 'bg-white text-primary hover:bg-white/90' : '')}
                 >
                   Get Started
                 </Button>
