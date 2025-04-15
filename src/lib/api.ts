@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -55,8 +55,19 @@ export interface PageAnalysisResult {
 }
 
 export async function analyzePage(url: string): Promise<PageAnalysisResult> {
-  const response = await api.post<PageAnalysisResult>('/pagespeed/analyze', { url });
-  return response.data;
+  const response = await fetch(`${API_BASE_URL}/api/analyze`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ url }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to analyze page');
+  }
+
+  return response.json();
 }
 
 export const getRecommendations = async (pageSpeedData: any, url: string) => {
