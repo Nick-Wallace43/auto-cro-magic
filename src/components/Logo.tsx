@@ -1,27 +1,12 @@
+'use client';
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import Link from 'next/link';
 
-const Logo = () => {
-  const navigate = useNavigate();
-
-  const handleLogoClick = () => {
-    navigate('/');
-  };
-
+export function Logo() {
   return (
-    <div 
-      className="flex items-center gap-1.5 font-bold text-xl cursor-pointer" 
-      onClick={handleLogoClick}
-    >
-      <div className="bg-gradient-to-r from-primary to-secondary rounded-md p-1.5 text-white">
-        Auto
-      </div>
-      <div className="text-white">
-        CRO
-      </div>
-    </div>
+    <Link href="/" className="flex items-center space-x-2">
+      <span className="text-xl font-bold">AutoCRO Magic</span>
+    </Link>
   );
-};
-
-export default Logo;
+}
