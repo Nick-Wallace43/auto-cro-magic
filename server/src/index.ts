@@ -7,8 +7,6 @@ import { config } from 'dotenv';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
 import pagespeedRoutes from './routes/pagespeed';
-import chatRoutes from './routes/chat';
-import authRoutes from './routes/auth';
 
 // Load environment variables
 config();
@@ -31,11 +29,9 @@ app.use(limiter);
 
 // Routes
 app.use('/api/pagespeed', pagespeedRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/auth', authRoutes);
 
 // Error handling
-app.use(errorHandler);
+app.use(errorHandler as express.ErrorRequestHandler);
 
 // Start server
 app.listen(port, () => {
