@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          Role      @default(USER)
+  pages         Page[]
+  abTests       ABTest[]
+  analytics     Analytics[]
+
+  @@map("users")
+}
+
+model Page {
+  id          String    @id @default(cuid())
+  url         String
+  title       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  abTests     ABTest[]
+  analytics   Analytics[]
+
+  @@map("pages")
+}
+
+model ABTest {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  status      TestStatus @default(DRAFT)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pageId      String
+  page        Page      @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  variants    ABTestVariant[]
+
+  @@map("ab_tests")
+}
+
+model ABTestVariant {
+  id          String    @id @default(cuid())
+  name        String
+  content     Json
+  traffic     Float     @default(0)
+  conversions Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  testId      String
+  test        ABTest   @relation(fields: [testId], references: [id], onDelete: Cascade)
+
+  @@map("ab_test_variants")
+}
+
+model Analytics {
+  id          String    @id @default(cuid())
+  pageViews   Int       @default(0)
+  uniqueVisitors Int    @default(0)
+  bounceRate  Float?
+  avgTimeOnPage Float?
+  date        DateTime  @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pageId      String
+  page        Page      @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@map("analytics")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum TestStatus {
+  DRAFT
+  RUNNING
+  COMPLETED
+  ARCHIVED
+} 
