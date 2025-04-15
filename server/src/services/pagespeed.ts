@@ -42,8 +42,10 @@ export const analyzePage = async (url: string): Promise<PageSpeedResult> => {
     const { lighthouseResult } = response.data;
     const { audits, categories } = lighthouseResult;
 
+    const score = Math.round(Number(categories.performance.score) * 100);
+
     return {
-      performanceScore: categories.performance.score * 100,
+      performanceScore: score,
       firstContentfulPaint: audits['first-contentful-paint'].numericValue,
       speedIndex: audits['speed-index'].numericValue,
       largestContentfulPaint: audits['largest-contentful-paint'].numericValue,

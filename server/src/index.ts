@@ -7,6 +7,7 @@ import { config } from 'dotenv';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
 import pagespeedRoutes from './routes/pagespeed';
+import { Request, Response, NextFunction } from 'express';
 
 // Load environment variables
 config();
@@ -31,7 +32,10 @@ app.use(limiter);
 app.use('/api/pagespeed', pagespeedRoutes);
 
 // Error handling
-app.use(errorHandler as express.ErrorRequestHandler);
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
 
 // Start server
 app.listen(port, () => {
